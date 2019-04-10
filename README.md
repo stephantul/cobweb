@@ -13,7 +13,7 @@ The logistic map exhibits chaotic behavior for most values `r > 3.56995`.
 from matplotlib import pyplot as plt
 from cobweb import cobweb_plot
 
-def logistic_map(x, r=3.14):
+def logistic_map(x, r=3.4995):
     return x * (1 - x) * r
 
 if __name__ == "__main__":
@@ -27,3 +27,7 @@ if __name__ == "__main__":
     plt.plot(*func_plot, color='black')
     plt.plot(*lin_plot, color='black')
 ```
+
+This gives the following result:
+
+![plot](https://raw.githubusercontent.com/stephantul/cobweb/master/images/34995.png)
