@@ -3,7 +3,6 @@ import numpy as np
 
 def cobweb_plot(function,
                 x0=.2,
-                domain=(0, 1.0),
                 num_iter=500,
                 precision=.001):
     """
@@ -17,9 +16,6 @@ def cobweb_plot(function,
         the same.
     x0 : float, default .2
         The first value used as input to the function.
-    domain : tuple of two floats, default (0, 1.0)
-        The closed interval specifying the domain of the function you want to
-        visualize.
     num_iter : int, default 500
         The number of iterations to run over.
     precision : float, default 1e-3
@@ -38,19 +34,23 @@ def cobweb_plot(function,
         The points indicating the horizontal line.
 
     """
-    low, high = domain
-    # Create function graph
-    over_domain = np.arange(*domain, precision)
-    lin_out = list(zip(*[(x, x) for x in over_domain]))
-    func_out = list(zip(*[(x, function(x)) for x in over_domain]))
     # Starting iterate
     ix = [x0]
-    iy = [low]
+    iy = [0]
     x = x0
     for _ in range(num_iter):
         xt = function(x)
         ix.extend([x, xt])
         iy.extend([xt, xt])
         x = xt
+
+    low, high = np.min([ix, iy]), np.max([ix, iy])
+    low = min(low, 0)
+    high = max(high, 1.0)
+    # Create function graph
+    over_domain = np.arange(low, high, precision)
+    iy[0] = low
+    lin_out = list(zip(*[(x, x) for x in over_domain]))
+    func_out = list(zip(*[(x, function(x)) for x in over_domain]))
 
     return (ix, iy), func_out, lin_out
