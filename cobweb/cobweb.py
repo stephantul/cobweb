@@ -1,6 +1,21 @@
 import numpy as np
 
 
+def system_to_cobweb(system):
+    """Convert the output of a system to the format of the cobweb plot."""
+    x0 = system[0]
+    # Starting iterate
+    ix = [x0]
+    iy = [0]
+    x = x0
+    for xt in system[1:]:
+        ix.extend([x, xt])
+        iy.extend([xt, xt])
+        x = xt
+
+    return ix, iy
+
+
 def cobweb_plot(function,
                 x0=.2,
                 num_iter=500,
@@ -34,15 +49,13 @@ def cobweb_plot(function,
         The points indicating the horizontal line.
 
     """
-    # Starting iterate
-    ix = [x0]
-    iy = [0]
     x = x0
+    xs = [x0]
     for _ in range(num_iter):
-        xt = function(x)
-        ix.extend([x, xt])
-        iy.extend([xt, xt])
-        x = xt
+        x = function(x)
+        xs.append(x)
+
+    ix, iy = system_to_cobweb(xs)
 
     low, high = np.min([ix, iy]), np.max([ix, iy])
     low = min(low, 0)
