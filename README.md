@@ -20,7 +20,6 @@ if __name__ == "__main__":
 
     xt, func_plot, lin_plot = cobweb_plot(logistic_map,
                                           x0=.2,
-                                          domain=(0, 1.0),
                                           num_iter=500)
 
     plt.plot(*xt, color='red')
